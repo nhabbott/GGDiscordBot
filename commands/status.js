@@ -11,6 +11,4 @@ exports.run = (client, message, args) => {
     } else {
         message.reply('You do not have permission to access this command!');
     }
-
-    message.delete(1000);
 }

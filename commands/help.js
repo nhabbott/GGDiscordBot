@@ -6,6 +6,5 @@ exports.run = (client, message, args) => {
     const color = require('chalk');
     let user = message.member;
     
-    user.send('ENTER COMMANDS HERE');
-    message.delete(1000);
+    user.send(`${config.help_message}`);
 }
