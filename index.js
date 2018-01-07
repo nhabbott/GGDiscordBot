@@ -6,7 +6,7 @@ const config = require('./config.json');
 
 // Loop through event modules.
 fs.readdir('./events/', (err, files) => {
-    if (err) return console.error(err);
+    if (err) return console.log('[GGBot]' + color.red('[Error] ') + err);
 
     files.forEach(file => {
         let eventFunction = require('./events/' + `${file}`);
@@ -32,7 +32,7 @@ client.on('message', async message => {
         commandFile.run(client, message, args);
         if (command !== 'clear') { message.delete(1000); }
     } catch (err) {
-        console.error(err);
+        console.log('[GGBot]' + color.red('[Error] ') + err);
     }
 });
 

@@ -1,3 +1,7 @@
+/**
+ * Clears the chat that the message is sent from.
+ */
+
 exports.run = (client, message, args) => {
     let user = message.member;
     
