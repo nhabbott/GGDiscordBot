@@ -1,8 +1,9 @@
 {
     "token": "Mzk5MTAzODI4MDIyMDAxNjY1.DTIN_w.pzmLEy9huweETGhNo_8faqgW7XM",
-    "prefix": "//",
-    "welcome_message": "Welcome to the GGRadio Discord, ${member.user}.",
-    "donation_thanks": "Thanks for donating!",
-    "help_message": "",
-    "admins": ["Engineer", "Founder"]
+    "prefix": "/",
+    "admins": ["Engineer", "Founder"],
+    "messages": {
+        "welcome_message": "Welcome to the GGRadio Discord, ${member.user}",
+        "donation_thanks": "Thanks for donating!"
+    }
 }
