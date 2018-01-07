@@ -7,7 +7,7 @@ exports.run = (client, message, args) => {
     let user = message.member;
 
     if (user.roles.some(r=>["Engineer", "Founder"].includes(r.name))) {
-        user.send(`Something should go here`);
+        message.channel.send('');
     } else {
         message.reply('You do not have permission to access this command!');
     }

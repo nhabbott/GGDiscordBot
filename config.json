@@ -3,6 +3,6 @@
     "prefix": "//",
     "welcome_message": "Welcome to the GGRadio Discord, ${member.user}.",
     "donation_thanks": "Thanks for donating!",
-    "help_message": ""
-
+    "help_message": "",
+    "admins": ["Engineer", "Founder"]
 }

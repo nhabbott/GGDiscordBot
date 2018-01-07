@@ -30,7 +30,7 @@ client.on('message', async message => {
     try {
         let commandFile = require(`./commands/${command}.js`);
         commandFile.run(client, message, args);
-        message.delete(1000);
+        if (command !== 'clear') { message.delete(1000); }
     } catch (err) {
         console.error(err);
     }
