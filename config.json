@@ -2,8 +2,13 @@
     "token": "Mzk5MTAzODI4MDIyMDAxNjY1.DTIN_w.pzmLEy9huweETGhNo_8faqgW7XM",
     "prefix": "/",
     "admins": ["Engineer", "Founder"],
+    "cooldown": 2500,
     "messages": {
         "welcome_message": "Welcome to the GGRadio Discord, ${member.user}",
         "donation_thanks": "Thanks for donating!"
+    },
+    "webhook": {
+        "id": "399103828022001665",
+        "token": ""
     }
 }

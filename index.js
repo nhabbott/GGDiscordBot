@@ -7,41 +7,14 @@ const EnmapLevel = require('enmap-level');
 const color = require('chalk');
 const config = require('./config.json');
 
+client.config = config;
+client.talkedRecently = new Set();
 client.commands = new Enmap();
 client.aliases = new Enmap();
 client.myStatus = {
     lastSpoken: Date.now(),
     away: false,
     timeout: 900000
-};
-
-client.config = config;
-client.db = require("./modules/PersistentDB.js");
-client.cColors = (type, message) => {
-    switch (type) {
-        case 'event':
-            return '[GGBot]' + color.cyan('[Event]') + ` ${message}`;
-            break;
-        
-        case 'init':
-            return '[GGBot]' + color.yellow('[Init]') + ` ${message}`;
-            break;
-
-        case 'ready':
-            return '[GGBot]' + color.green('[Ready]') + ` ${message}`;
-            break;
-
-        case 'error':
-            return '[GGBot]' + color.red('[Error]') + ` ${message}`;
-            break;
-
-        case 'ban':
-            return '[GGBot]' + color.red('[Ban]') + ` ${message}`;
-            break;
-
-        default:
-            break;
-    }
 };
 
 // Loop through command modules

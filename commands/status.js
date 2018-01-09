@@ -1,23 +1,27 @@
-exports.run = (client, message, args) => {
-    let user = message.member;
+const Discord = require('discord.js');
+const moment = require('moment');
+require('moment-duration-format');
 
-    if (user.roles.some(r=>["Engineer", "Founder"].includes(r.name))) {
-        message.channel.send('');
-        console.log(client.cColors('event', `${user.displayName} used the '${client.config.prefix}status' command`));
-    } else {
-        message.reply('You do not have permission to access this command!');
-        console.log(client.cColors('event', `${user.displayName} tried to access the '${client.config.prefix}status' command`));
-    }
+exports.run = (client, msg, args) => {
+    const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
+    msg.channel.send(`= STATISTICS =
+• Mem Usage  :: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB
+• Uptime     :: ${duration}
+• Users      :: ${client.users.size.toLocaleString()}
+• Servers    :: ${client.guilds.size.toLocaleString()}
+• Channels   :: ${client.channels.size.toLocaleString()}
+• Discord.js :: v${Discord.version}
+• Node       :: ${process.version}`, {code: "asciidoc"});
 };
 
 exports.conf = {
     enabled: true,
-    guildOnly: true,
+    guildOnly: false,
     aliases: []
 };
 
 exports.help = {
     name: 'status',
-    description: 'Sends a message containing bot information',
+    description: 'Gives some useful bot statistics',
     usage: 'status'
 };

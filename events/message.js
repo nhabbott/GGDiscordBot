@@ -1,4 +1,5 @@
 module.exports = async (client, message) => {
+    if (client.talkedRecently.has(message.author.id)) return;
     if (message.author.bot) return;
     client.myStatus.lastSpoken = Date.now();
     if (client.myStatus.away) client.myStatus.away = false;
@@ -14,7 +15,11 @@ module.exports = async (client, message) => {
         message.flags.push(args.shift().slice(1));
     }
         cmd.run(client, message, args);
-        if (command !== 'clear') message.delete(1000);
+        if (command !== 'clear') message.delete(0);
+        client.talkedRecently.add(message.author.id);
+        setTimeout(() => {
+            client.talkedRecently.delete(message.author.id);
+        }, client.config.cooldown);
     } else if (client.tags.has(command)) {
         message.edit(`${args.join(' ')} ${client.tags.get(command).contents}`);
     }
