@@ -1,32 +1,48 @@
 exports.run = async (client, message, args) => {
-    if (!message.member.roles.some(r=>["Engineer", "Founder"].includes(r.name))) message.reply('You do not have permission to access this command!'); console.log(client.cColors('event', `${user.displayName} tried to access the '${client.config.prefix}clear' command`)); return;
-    let user = message.mentions.users.first() || client.users.get(args[0]);
-    let amount = !!user ? parseInt(message.content.split(" ")[2], 10) : parseInt(message.content.split(" ")[1], 10);
-    if (!amount) return message.edit("You must specify an amount to delete!").then(message.delete(2000));
-    if (!amount && !user) return message.edit("You must specify a user and amount, or just an amount, of messages to purge!").then(message.delete(2000));
+  if (!client.config.admins.includes(message.member.highestRole.name)) {
+    message.reply('you do not have permission to access this command!'); 
+    console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}clear' command`)); 
+    return;
+  }
 
-    await message.delete();
-    let messages = await message.channel.messages.fetch({limit: 100});
+  let user = null;
+  let amount = null;
 
-    if(user) {
-        messages = messages.array().filter(m=>m.author.id === user.id);
-        console.log(client.cColors('event', `${message.member.displayName} cleared ${list.size} of ${user}'s messages from #${message.channel.name}`));
-        messages.length = amount;
-    } else {
-        messages = messages.array();
-        messages.length = amount + 1;
+  if (message.mentions.users.first() != undefined) {
+    user = message.mentions.users.first();
+    if (args[1].match('^[0-9]*$')) {
+      if (message.author.id === user.id) {
+        amount = Number(args[1]) + 1;
+      } else {
+        amount = Number(args[1]);
+      }
     }
-    messages.map(async m => await m.delete().then(console.log(client.cColors('event', `${message.member.displayName} cleared ${list.size} messages from #${message.channel.name}`))).catch(err=>console.log(client.cColors('error', `${err}`))));
+  } else if (args[0].match('^[0-9]*$')) {
+    amount = Number(args[0]) + 1;
+  }
+
+  if (amount === null) return message.reply("you must specify an amount to delete!");
+  if (user != null && amount === null) return message.reply("you must specify an amount of messages to remove!");
+  if (amount === null && user === null) return message.reply("you must specify a user and amount, or just an amount, of messages to purge!");
+
+  let messages = await message.channel.fetchMessages({limit: Number(amount)});
+
+  if (user != null) {
+    messages = messages.filter((m) => m.author.id === user.id);
+  }
+
+  message.channel.bulkDelete(messages);
+  console.log(client.cColors('event', `${message.member.displayName} cleared ${messages.size - 1} messages from #${message.channel.name}`));
 };
 
 exports.conf = {
-    enabled: true,
-    guildOnly: true,
-    aliases: []
+  enabled: true,
+  guildOnly: true,
+  aliases: []
 };
 
 exports.help = {
-    name: 'purge',
-    description: 'Deletes messages from anyone in the channel',
-    usage: 'purge [mention] [number of messages] or purge [number of messages]'
+  name: 'purge',
+  description: 'Deletes messages from anyone in the channel',
+  usage: 'purge [mention] [number of messages] or purge [number of messages]'
 };

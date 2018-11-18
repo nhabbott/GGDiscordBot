@@ -1,5 +1,5 @@
 {
-    "token": "Mzk5MTAzODI4MDIyMDAxNjY1.DTIN_w.pzmLEy9huweETGhNo_8faqgW7XM",
+    "token": "NTEzNTc5NjUzMTg5ODYxMzc2.DtKD8A.VK5BfAuZZBuXaB3OVr6LllPVHUQ",
     "prefix": "/",
     "admins": ["Engineer", "Founder"],
     "cooldown": 2500,
@@ -7,8 +7,5 @@
         "welcome_message": "Welcome to the GGRadio Discord, ${member.user}",
         "donation_thanks": "Thanks for donating!"
     },
-    "webhook": {
-        "id": "399103828022001665",
-        "token": ""
-    }
+    "donationUrl": ""
 }

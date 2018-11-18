@@ -3,7 +3,7 @@ exports.run = (client, message, args) => {
     const config = require('../config.json');
     let user = message.member;
 
-    http.get('url').then(res => {
+    http.get(client.cofnig.donationUrl).then(res => {
         if (res.data === 'true') {
             let role = message.guild.roles.find('name', 'Donator');
             console.log(client.cColors('event', `${user.displayName} has been promoted to the Donator role.`));
