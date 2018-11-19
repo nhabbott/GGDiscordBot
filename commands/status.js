@@ -3,11 +3,14 @@ const moment = require('moment');
 require('moment-duration-format');
 
 exports.run = (client, message, args) => {
+  // Check if caller has bot admin rights
   if (!client.config.admins.includes(message.member.highestRole.name)) {
-      message.reply('You do not have permission to access this command!'); 
-      console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}status' command`)); 
-      return;
+    message.reply('You do not have permission to access this command!'); 
+    console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}status' command`)); 
+    return;
   }
+
+  // Print stats to user
   const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
   message.channel.send(`= STATISTICS =
 • Mem Usage  :: ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB

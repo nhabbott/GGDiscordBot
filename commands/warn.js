@@ -1,12 +1,14 @@
 const moment = require('moment');
 
 exports.run = (client, message, args) => {
+  // Check if caller has bot admin rights
   if (!client.config.admins.includes(message.member.highestRole.name)) {
     message.reply('you do not have permission to access this command!'); 
     console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}warn' command`)); 
     return;
   }
   
+  // Check if required args are provided & if user provided is bot admin then stop
   if (args[0] === null) {
     return message.reply('please provide a user to warn by mentioning them');
   } else if (args[1] === null) {
@@ -15,17 +17,22 @@ exports.run = (client, message, args) => {
     return message.reply('you can\'t warn moderators');
   }
 
+  // Find bot log channel
   let channel = client.channels.find((c) => c.id === client.config.modChannel);
 
+  // Read warn.json file
   let fs = require('fs');
   let warnsFile = JSON.parse(fs.readFileSync('./json/warns.json'));
   let warnsVar = null;
   let color = null;
 
+  // Loop through warns file and find the specified user
   warnsFile.forEach((warn, i, arr) => {
     if (warn.id === message.mentions.members.first().user.id) {
+      // Grab previous warns and add the new one
       warnsVar = warn.warns + 1;
 
+      // Set color for embed
       if (warnsVar === 1) {
         color = 15461146;
       } else if (warnsVar === 2) {
@@ -34,13 +41,16 @@ exports.run = (client, message, args) => {
         color = 16711680;
       }
 
+      // Update the warns file 
       if (!(warnsVar > client.config.banAfterWarns)) {
+        // If the user has less than client.config.banAfterWarns then update warns file
         warn.warns = warn.warns + 1;
         let obj = JSON.stringify(warnsFile);
         fs.writeFileSync('./json/warns.json', obj, 'utf8', (err) => {
           client.cColors('error', err);
         });
       } else if (warnsVar >= client.config.banAfterWarns) {
+        // If the user has greater than or equal to client.config.banAfterWarns then remove them from warns file
         arr.splice(i, 1);
         let obj = JSON.stringify(warnsFile);
         fs.writeFileSync('./json/warns.json', obj, 'utf8', (err) => {
@@ -48,6 +58,7 @@ exports.run = (client, message, args) => {
         });
       }
 
+      // Send embed to bot log channel for warning
       channel.send({embed: {
         color: color,
         author: {
@@ -65,15 +76,18 @@ exports.run = (client, message, args) => {
 
       console.log(client.cColors('event', `${message.member.displayName} warned ${message.mentions.members.first().displayName} for '${args[1]}'`));
 
+      // If user has enough warns to constitute a ban, do it
       if (warn.warns === client.config.banAfterWarns) {
+        // Ban user
         message.mentions.members.first().ban('Maximum number of warnings met').then(() => {
+          // Send auto ban enbed to bot log channel
           channel.send({embed: {
             color: 16711680,
             author: {
               name: message.member.displayName,
               icon_url: message.member.user.avatarURL
             },
-            title: `Auto Ban`,
+            title: 'Auto Ban',
             description: `${message.mentions.members.first().user.id} has been banned. (Maximum warnings exceeded (${client.config.banAfterWarns}))`,
             fields: [{
               name: 'Reason:',

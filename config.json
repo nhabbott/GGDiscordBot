@@ -8,6 +8,7 @@
         "donation_thanks": "Thanks for donating!"
     },
     "donationUrl": "",
+    "donationRole": "Donator",
     "modChannel": "513936968158281759",
     "banAfterWarns": "3"
 }
