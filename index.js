@@ -3,7 +3,6 @@ const client = new Discord.Client();
 
 const fs = require('fs');
 const Enmap = require('enmap');
-const EnmapLevel = require('enmap-level');
 const color = require('chalk');
 const config = require('./config.json');
 
@@ -17,6 +16,7 @@ client.myStatus = {
     timeout: 900000
 };
 
+// Pretty console.logs
 client.cColors = (type, message) => {
   switch (type) {
     case 'event':
@@ -30,9 +30,6 @@ client.cColors = (type, message) => {
 
     case 'error':
       return '[GGBot]' + color.red('[Error]') + ` ${message}`;
-
-    case 'ban':
-      return '[GGBot]' + color.red('[Ban]') + ` ${message}`;
 
     default:
       break;
@@ -66,11 +63,26 @@ fs.readdir('./events/', (err, files) => {
   });
 });
 
+// Initialize warning json file
+fs.readdir('./json/', (err, files) => {
+  if (err) console.log(err);
+  if (files.length === 0) {
+    console.log(`[GGBot]` + color.yellow('[Init]') + ` Initializing a total of 1 JSON files`);
+    fs.writeFile('./json/warns.json', '{}', null, (err) => {
+      if (err) console.log(err);
+    });
+  } else {
+    return;
+  }
+});
+
+// Make exceptions pretty
 process.on('uncaughtException', (err) => {
   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
   console.log(client.cColors('error', errorMsg));
 });
   
+// Make promise rejections pretty
 process.on("unhandledRejection", err => {
   console.log(client.cColors('error', err));
 });

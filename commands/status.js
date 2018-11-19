@@ -5,7 +5,7 @@ require('moment-duration-format');
 exports.run = (client, message, args) => {
   if (!client.config.admins.includes(message.member.highestRole.name)) {
       message.reply('You do not have permission to access this command!'); 
-      console.log(client.cColors('event', `${user.displayName} tried to access the '${client.config.prefix}clear' command`)); 
+      console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}status' command`)); 
       return;
   }
   const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');

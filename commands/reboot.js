@@ -3,7 +3,7 @@ const write = promisify(require("fs").writeFile);
 exports.run = async (client, message, args) => {
   if (!client.config.admins.includes(message.member.highestRole.name)) { 
     message.reply('You do not have permission to access this command!');  
-    console.log(client.cColors('event', `${user.displayName} tried to access the '${client.config.prefix}clear' command`)); 
+    console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}reboot' command`)); 
     return;
   }
   await message.reply("Rebooting...");

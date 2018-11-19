@@ -1,7 +1,7 @@
 exports.run = async (client, message, args) => {
   if (!client.config.admins.includes(message.member.highestRole.name)) {
     message.reply('you do not have permission to access this command!'); 
-    console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}clear' command`)); 
+    console.log(client.cColors('event', `${message.member.displayName} tried to access the '${client.config.prefix}purge' command`)); 
     return;
   }
 
@@ -31,7 +31,12 @@ exports.run = async (client, message, args) => {
     messages = messages.filter((m) => m.author.id === user.id);
   }
 
-  message.channel.bulkDelete(messages);
+  //message.channel.bulkDelete(messages);
+  
+  messages.forEach((message) => {
+    message.delete();
+  });
+
   console.log(client.cColors('event', `${message.member.displayName} cleared ${messages.size - 1} messages from #${message.channel.name}`));
 };
 
