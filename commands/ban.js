@@ -9,14 +9,26 @@ exports.run = (client, message, args) => {
   // Check if all the required args are provided
   if (args[0] == null) {
     return message.reply('please provide a person to ban by mentioning them');
-  } else if (args[1] == null) {
-    return message.reply('please provide a reason for the ban');
   } else if (args[2] == null) {
+    return message.reply('please provide a reason for the ban');
+  } else if (args[1] == null) {
     return message.reply('please provide the number of days of messages to remove');
   }
 
-  let reason = args[1];
-  let days = args[2];
+  let reason = "";
+  let days = args[1];
+
+  if (args.length > 3) {
+    args.forEach((arg, i) => {
+      if (i < 3) {
+        i++;
+      } else if ( i === (args.length - 1)) {
+        reason += args[i];
+      } else {
+        reason += args[i] + " "
+      }
+    });
+  }
 
   // Ban the mentioned player for specified reason & delete specified number of days of messages
   message.mentions.members.first().ban({days: days, reason: reason}).then(() => {
@@ -58,5 +70,5 @@ exports.conf = {
 exports.help = {
   name: 'ban',
   description: 'Bans the mentioned user',
-  usage: 'ban [mention] [reason] [days of messages to remove]'
+  usage: 'ban [mention] [days of messages to remove] [reason]'
 };

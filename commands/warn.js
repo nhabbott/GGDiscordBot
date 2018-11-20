@@ -13,9 +13,9 @@ exports.run = (client, message, args) => {
     return message.reply('please provide a user to warn by mentioning them');
   } else if (args[1] === null) {
     return message.reply('please provide a reason for the warning');
-  } else if (client.config.admins.includes(message.mentions.members.first().highestRole.name)) {
-    return message.reply('you can\'t warn moderators');
-  }
+  } //else if (client.config.admins.includes(message.mentions.members.first().highestRole.name)) {
+    //return message.reply('you can\'t warn moderators');
+  //}
 
   // Find bot log channel
   let channel = client.channels.find((c) => c.id === client.config.modChannel);
@@ -23,9 +23,22 @@ exports.run = (client, message, args) => {
   // Read warn.json file
   let fs = require('fs');
   let warnsFile = JSON.parse(fs.readFileSync('./json/warns.json'));
-  let warnsVar = null;
-  let color = null;
 
+  let warnsVar = 0;
+  let color = 0;
+  let reason = "";
+
+  if (args.length > 1) {
+    args.forEach((arg, i) => {
+      if (i < 1) {
+        i++;
+      } else if ( i === (args.length - 1)) {
+        reason += args[i];
+      } else {
+        reason += args[i] + " "
+      }
+    });
+  }
 
   // Loop through warns file and find the specified user
   warnsFile.forEach((warn, i, arr) => {
@@ -59,7 +72,7 @@ exports.run = (client, message, args) => {
             icon_url: message.member.user.avatarURL
           },
           title: `Warning #${String(warnsVar)}`,
-          description: `${message.mentions.members.first().user.id} has been warned for ${args[1]}.`,
+          description: `${message.mentions.members.first().user.id} has been warned for ${reason}.`,
           timestamp: new Date(),
           footer: {
             icon_url: message.mentions.members.first().user.avatarURL,
@@ -67,7 +80,7 @@ exports.run = (client, message, args) => {
           }
         }});
 
-        console.log(client.cColors('event', `${message.member.displayName} warned ${message.mentions.members.first().displayName} for '${args[1]}'`));
+        console.log(client.cColors('event', `${message.member.displayName} warned ${message.mentions.members.first().displayName} for '${reason}'`));
       } else if (warnsVar === client.config.banAfterWarns) {
         // If the user has greater than or equal to client.config.banAfterWarns then remove them from warns file
         arr.splice(i, 1);
@@ -122,5 +135,5 @@ exports.conf = {
 exports.help = {
   name: 'warn',
   description: 'Warns the mentioned user',
-  usage: 'warn [mention] [message]'
+  usage: 'warn [mention] [reason]'
 };
