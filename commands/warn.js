@@ -26,6 +26,7 @@ exports.run = (client, message, args) => {
   let warnsVar = null;
   let color = null;
 
+
   // Loop through warns file and find the specified user
   warnsFile.forEach((warn, i, arr) => {
     if (warn.id === message.mentions.members.first().user.id) {
@@ -42,42 +43,39 @@ exports.run = (client, message, args) => {
       }
 
       // Update the warns file 
-      if (!(warnsVar > client.config.banAfterWarns)) {
+      if (!(warnsVar === client.config.banAfterWarns)) {
         // If the user has less than client.config.banAfterWarns then update warns file
         warn.warns = warn.warns + 1;
         let obj = JSON.stringify(warnsFile);
         fs.writeFileSync('./json/warns.json', obj, 'utf8', (err) => {
-          client.cColors('error', err);
+          console.log(client.cColors('error', err));
         });
-      } else if (warnsVar >= client.config.banAfterWarns) {
+
+        // Send embed to bot log channel for warning
+        channel.send({embed: {
+          color: color,
+          author: {
+            name: message.member.displayName,
+            icon_url: message.member.user.avatarURL
+          },
+          title: `Warning #${String(warnsVar)}`,
+          description: `${message.mentions.members.first().user.id} has been warned for ${args[1]}.`,
+          timestamp: new Date(),
+          footer: {
+            icon_url: message.mentions.members.first().user.avatarURL,
+            text: `${message.mentions.members.first().user.tag} has been warned.`
+          }
+        }});
+
+        console.log(client.cColors('event', `${message.member.displayName} warned ${message.mentions.members.first().displayName} for '${args[1]}'`));
+      } else if (warnsVar === client.config.banAfterWarns) {
         // If the user has greater than or equal to client.config.banAfterWarns then remove them from warns file
         arr.splice(i, 1);
         let obj = JSON.stringify(warnsFile);
         fs.writeFileSync('./json/warns.json', obj, 'utf8', (err) => {
-          client.cColors('error', err);
+          console.log(client.cColors('error', err));
         });
-      }
 
-      // Send embed to bot log channel for warning
-      channel.send({embed: {
-        color: color,
-        author: {
-          name: message.member.displayName,
-          icon_url: message.member.user.avatarURL
-        },
-        title: `Warning #${String(warnsVar)}`,
-        description: `${message.mentions.members.first().user.id} has been warned for ${args[1]}.`,
-        timestamp: new Date(),
-        footer: {
-          icon_url: message.mentions.members.first().user.avatarURL,
-          text: `${message.mentions.members.first().user.tag} has been warned.`
-        }
-      }});
-
-      console.log(client.cColors('event', `${message.member.displayName} warned ${message.mentions.members.first().displayName} for '${args[1]}'`));
-
-      // If user has enough warns to constitute a ban, do it
-      if (warn.warns === client.config.banAfterWarns) {
         // Ban user
         message.mentions.members.first().ban('Maximum number of warnings met').then(() => {
           // Send auto ban enbed to bot log channel
@@ -105,6 +103,12 @@ exports.run = (client, message, args) => {
           console.log(client.cColors('error', `${err}`));
         });
       }
+    } else if (i > arr.length) {
+      message.reply('no user was found in the warns file');
+      console.log(client.cColors('error', `${message.member.displayName} tried to warn '${message.mentions.members.first().displayName}' but their user id was not found in the warns file`));
+      return false;
+    } else {
+      i++;
     }
   });
 };

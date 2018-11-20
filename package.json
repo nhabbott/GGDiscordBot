@@ -1,7 +1,7 @@
 {
   "name": "ggdiscordbot",
   "version": "0.0.1",
-  "description": "",
+  "description": "Discord moderation bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
@@ -11,16 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MexicanRaindeer/GGDiscordBot.git"
+    "url": "https://github.com/nhabbott/GGDiscordBot.git"
   },
   "author": "Noah <noah@tmw.media>",
-  "license": "ISC",
+  "license": "Apache 2.0",
   "dependencies": {
     "axios": "^0.17.1",
     "chalk": "^2.4.1",
     "discord.js": "^11.4.2",
     "enmap": "^0.4.6",
-    "enmap-level": "^1.0.1",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2"
   }

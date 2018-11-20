@@ -10,5 +10,5 @@
     "donationUrl": "",
     "donationRole": "Donator",
     "modChannel": "513936968158281759",
-    "banAfterWarns": "3"
+    "banAfterWarns": 3
 }
