@@ -1,0 +1,1 @@
+Made where one instance is only good for one guild. Upon setup ensure that: the 'firstJoin' config variable is set to true, the 'modChannel' config variable is set to the id of a text channel, and token is set to your bots token.

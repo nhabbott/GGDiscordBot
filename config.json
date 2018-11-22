@@ -1,7 +1,11 @@
 {
+    "firstJoin": false,
     "token": "NTEzNTc5NjUzMTg5ODYxMzc2.DtKD8A.VK5BfAuZZBuXaB3OVr6LllPVHUQ",
     "prefix": "/",
-    "admins": ["Engineer", "Founder"],
+    "admins": [
+        "Engineer",
+        "Founder"
+    ],
     "cooldown": 2500,
     "messages": {
         "welcome_message": "Welcome to the GGRadio Discord, ${member.user}",

@@ -18,6 +18,7 @@ exports.run = (client, message, args) => {
   let reason = "";
   let days = args[1];
 
+  // Allows for multi-line reasons
   if (args.length > 3) {
     args.forEach((arg, i) => {
       if (i < 3) {

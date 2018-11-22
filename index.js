@@ -39,7 +39,7 @@ client.cColors = (type, message) => {
 // Loop through command modules
 fs.readdir('./commands/', (err, files) => {
   if (err) console.error(err);
-  console.log(`[GGBot]` + color.yellow('[Init]') + ` Loading a total of ${files.length} commands`);
+  console.log(client.cColors('init', `Loading a total of ${files.length} commands`));
   files.forEach(f => {
     if(f.split(".").slice(-1)[0] !== "js") return;
     let props = require(`./commands/${f}`);
@@ -54,7 +54,7 @@ fs.readdir('./commands/', (err, files) => {
 // Loop through event modules.
 fs.readdir('./events/', (err, files) => {
   if (err) console.error(err);
-  console.log(`[GGBot]` + color.yellow('[Init]') + ` Loading a total of ${files.length} events`);
+  console.log(client.cColors('init', `Loading a total of ${files.length} events`));
   files.forEach(file => {
     const eventName = file.split(".")[0];
     const event = require(`./events/${file}`);
@@ -67,8 +67,8 @@ fs.readdir('./events/', (err, files) => {
 fs.readdir('./json/', (err, files) => {
   if (err) console.log(err);
   if (files.length === 0) {
-    console.log(`[GGBot]` + color.yellow('[Init]') + ` Initializing a total of 1 JSON files`);
-    fs.writeFile('./json/warns.json', '{}', null, (err) => {
+    console.log(client.cColors('init', `Initializing a total of 1 JSON files`));
+    fs.writeFile('./json/warns.json', '[]', 'utf8', (err) => {
       if (err) console.log(err);
     });
   } else {

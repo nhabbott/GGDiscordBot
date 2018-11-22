@@ -10,12 +10,12 @@ exports.run = (client, message, args) => {
   
   // Check if required args are provided & if user provided is bot admin then stop
   if (args[0] === null) {
-    return message.reply('please provide a user to warn by mentioning them');
+    return message.reply('please provide a valid user to warn by mentioning them');
   } else if (args[1] === null) {
     return message.reply('please provide a reason for the warning');
-  } //else if (client.config.admins.includes(message.mentions.members.first().highestRole.name)) {
-    //return message.reply('you can\'t warn moderators');
-  //}
+  } else if (client.config.admins.includes(message.mentions.members.first().highestRole.name)) {
+    return message.reply('you can\'t warn moderators');
+  }
 
   // Find bot log channel
   let channel = client.channels.find((c) => c.id === client.config.modChannel);
@@ -28,6 +28,7 @@ exports.run = (client, message, args) => {
   let color = 0;
   let reason = "";
 
+  // Allows for multi-line reasons
   if (args.length > 1) {
     args.forEach((arg, i) => {
       if (i < 1) {
