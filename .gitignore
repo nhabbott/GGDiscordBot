@@ -63,4 +63,4 @@ typings/
 *.sqlite
 
 # Code
-json
+json/warns.json

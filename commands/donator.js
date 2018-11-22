@@ -1,5 +1,4 @@
 const http = require('axios');
-const config = require('../config.json');
 
 exports.run = (client, message, args) => {
   // Send GET request to config URL to check if user deserves donator
@@ -10,7 +9,7 @@ exports.run = (client, message, args) => {
       let role = message.guild.roles.find((r) => r.name === client.config.donationRole); 
 
       // Add the donator role to the user
-      message.member.addRole(role).then(message.reply(`has received their donator role. ${config.messages.donation_thanks}`)).catch(err => {
+      message.member.addRole(role).then(message.reply(`has received their donator role. ${client.config.messages.donation_thanks}`)).catch(err => {
         console.log(client.cColors('error', `${err}`));
       });
     }

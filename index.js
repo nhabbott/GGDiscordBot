@@ -4,7 +4,7 @@ const client = new Discord.Client();
 const fs = require('fs');
 const Enmap = require('enmap');
 const color = require('chalk');
-const config = require('./config.json');
+const config = require('./json/config.json');
 
 client.config = config;
 client.talkedRecently = new Set();
