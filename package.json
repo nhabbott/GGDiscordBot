@@ -16,7 +16,7 @@
   "author": "Noah <noah@tmw.media>",
   "license": "Apache 2.0",
   "dependencies": {
-    "axios": "^0.18.1",
+    "axios": "^0.21.1",
     "chalk": "^2.4.1",
     "discord.js": "^11.4.2",
     "enmap": "^0.4.6",
